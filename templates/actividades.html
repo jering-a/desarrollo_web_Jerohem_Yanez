@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Listado de Actividades</title>
+  {% block css %}
+  <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/main.css') }}"
+  />
+  {% endblock %}
+</head>
+<body>
+
+  <header>
+    <h1>Listado de Actividades</h1>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('index') }}">Inicio</a></li>
+        <li><a href="{{ url_for('agregar') }}">Agregar Actividad</a></li>
+        <li><a href="{{ url_for('actividades') }}">Actividades</a></li>
+        <li><a href="{{ url_for('estadisticas') }}">Estadísticas</a></li>
+      </ul>
+    </nav>
+  </header>
+    
+  <table id="tablaActividades">
+    <thead>
+      <tr>
+        <th>Inicio</th>
+        <th>Término</th>
+        <th>Comuna</th>
+        <th>Sector</th>
+        <th>Tema</th>
+        <th>Organizador</th>
+        <th>Total Fotos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-index="0">
+        <td>2025-04-10 15:00</td>
+        <td>2025-04-10 17:00</td>
+        <td>Santiago</td>
+        <td>Plaza Italia</td>
+        <td>Música</td>
+        <td>Ana Pérez</td>
+        <td>2</td>
+      </tr>
+      <tr data-index="1">
+        <td>2025-04-11 11:00</td>
+        <td>2025-04-11 13:00</td>
+        <td>Ñuñoa</td>
+        <td>Parque Pucará</td>
+        <td>Deporte</td>
+        <td>Juan Díaz</td>
+        <td>1</td>
+      </tr>
+      <tr data-index="2">
+        <td>2025-04-12 16:00</td>
+        <td>2025-04-12 19:00</td>
+        <td>Puente Alto</td>
+        <td>Centro Cultural</td>
+        <td>Ciencias</td>
+        <td>Marcela Soto</td>
+        <td>3</td>
+      </tr>
+      <tr data-index="3">
+        <td>2025-04-13 10:00</td>
+        <td>2025-04-13 12:00</td>
+        <td>La Florida</td>
+        <td>Av. Vicuña Mackenna</td>
+        <td>Comida</td>
+        <td>Pedro Gómez</td>
+        <td>1</td>
+      </tr>
+      <tr data-index="4">
+        <td>2025-04-14 18:00</td>
+        <td>2025-04-14 20:00</td>
+        <td>Providencia</td>
+        <td>Terraza Mall Costanera</td>
+        <td>Baile</td>
+        <td>Claudia Rojas</td>
+        <td>2</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Detalle de actividad -->
+  <div id="detalle" class="hidden detalle">
+    <h2 id="tituloActividad"></h2>
+    <p><strong>Inicio:</strong> <span id="detalleInicio"></span></p>
+    <p><strong>Término:</strong> <span id="detalleTermino"></span></p>
+    <p><strong>Comuna:</strong> <span id="detalleComuna"></span></p>
+    <p><strong>Sector:</strong> <span id="detalleSector"></span></p>
+    <p><strong>Tema:</strong> <span id="detalleTema"></span></p>
+    <p><strong>Organizador:</strong> <span id="detalleOrganizador"></span></p>
+
+    <div id="detalleFotos"></div>
+
+    <button id="volverListado" >Volver al listado</button>
+    <a href="{{ url_for('index') }}" class="boton">Volver</a>
+
+  </div>
+
+  <!-- Modal de imagen -->
+  <div id="modal" class="modal">
+    <img id="modalImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Foto ampliada">
+    <button id="cerrarModal" >Cerrar</button>
+  </div>
+
+  {% block javascript %}
+    <script  src="{{ url_for('static', filename='js/mostrarevento.js') }}"></script>
+  {% endblock %}
+
+</body>
+</html>

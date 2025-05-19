@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Informar Actividad</title>
+  {% block css %}
+  <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/main.css') }}"
+  />
+  {% endblock %}
+
+</head>
+<body>
+    
+
+    <header>
+        <h1>Informar nueva actividad social</h1>
+        <nav>
+          <ul>
+            <li><a href="{{ url_for('index') }}">Inicio</a></li>
+            <li><a href="{{ url_for('agregar') }}">Agregar Actividad</a></li>
+            <li><a href="{{ url_for('actividades') }}">Actividades</a></li>
+            <li><a href="{{ url_for('estadisticas') }}">Estadísticas</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      {% if error %}
+      <div class="mensaje-error">
+        {{ error }}
+      </div>
+    {% endif %}
+    {% if mensaje %}
+      <div class="mensaje-exito">
+        {{ mensaje }}
+      </div>
+    {% endif %}
+    
+
+    <div class="contenedor-central">
+        <form id="formActividad" action="{{ url_for('agregar') }}" method="POST" enctype="multipart/form-data">
+            <fieldset>
+            <legend><strong>¿Dónde?</strong></legend>
+    
+            <label for="region">Región:</label>
+            <select id="region" name="region" required>
+            <option value="">Seleccione una región</option>
+            </select>
+
+            <label for="comuna">Comuna:</label>
+            <select id="comuna" name="comuna" required disabled>
+            <option value="">Seleccione una comuna</option>
+            </select>
+
+            <label for="sector">Sector</label>
+            <input type="text" id="sector" name="sector" maxlength="100" placeholder="Ingrese el sector (opcional)">
+            </fieldset>
+
+            <!-- ¿Quién organiza? -->
+            <fieldset>
+            <legend><strong>¿Quién organiza?</strong></legend>
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" maxlength="200" required>
+
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" name="email" maxlength="100" required>
+
+            <label for="celular">Número de celular</label>
+            <input type="tel" id="celular" name="celular" pattern="^\+[\d]{3}\.[\d]{8,}$" placeholder="+569.12345678">
+
+            <label for="contacto">Contactar por</label>
+            <select id="contacto" name="contacto">
+                <option value="">Seleccione una opción</option>
+                <option value="whatsapp">WhatsApp</option>
+                <option value="telegram">Telegram</option>
+                <option value="X">X</option>
+                <option value="instagram">Instagram</option>
+                <option value="tiktok">TikTok</option>
+                <option value="otra">Otra</option>
+            </select>
+
+            <div id="contactoExtra" class="hidden">
+                <label for="contactoInfo">ID o URL de contacto</label>
+                <input type="text" id="contactoInfo" name="contactoInfo" minlength="4" maxlength="50">
+            </div>
+            </fieldset>
+
+            <!-- ¿Cuándo y de qué trata? -->
+            <fieldset>
+            <legend><strong>¿Cuándo y de qué trata?</strong></legend>
+
+            <label for="inicio">Día y hora de inicio</label>
+            <input type="datetime-local" id="inicio" name="inicio" required>
+
+            <label for="termino">Día y hora de término</label>
+            <input type="datetime-local" id="termino" name="termino">
+
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion" cols="50" rows="10"></textarea>
+
+            <label for="tema">Tema</label>
+            <select id="tema" name="tema" required>
+                <option value="">Seleccione un tema</option>
+                <option value="música">Música</option>
+                <option value="deporte">Deporte</option>
+                <option value="ciencias">Ciencias</option>
+                <option value="religión">Religión</option>
+                <option value="política">Política</option>
+                <option value="tecnología">Tecnología</option>
+                <option value="juegos">Juegos</option>
+                <option value="baile">Baile</option>
+                <option value="comida">Comida</option>
+                <option value="otro">Otro</option>
+            </select>
+
+            <div id="temaOtroContainer" class="hidden">
+                <label for="temaOtro">Describa el tema</label>
+                <input type="text" id="temaOtro" name="temaOtro" minlength="3" maxlength="15">
+            </div>
+
+            <div id="fotoContainer">
+                <label for="foto0">Foto:</label>
+                <input type="file" name="fotos[]" id="foto0" accept="image/*" required>
+            </div>
+              
+            <button type="button" id="agregarFoto">Agregar otra foto</button>
+            <ul id="erroresFotos" class="hidden text-red-500"></ul>
+        </fieldset>
+              
+
+            <button type="submit" id="enviarBtn">Agregar esta actividad</button>
+        </form>
+
+        <div id="errores" class="hidden" style=" color: red; border: 1px solid red; padding: 10px; margin-top: 20px;">
+            <h3>Errores encontrados:</h3>
+            <ul id="listaErrores"></ul>
+        </div>
+
+        
+    </div>
+    <!-- Confirmación -->
+    <div id="confirmacion" class="hidden">
+        <p>¿Está seguro que desea agregar esta actividad?</p>
+        <button id="confirmarSi">Sí, estoy seguro</button>
+        <button id="confirmarNo">No, no estoy seguro, quiero volver al formulario</button>
+    </div>
+
+
+    {% block javascript %}
+    <script src="{{ url_for('static', filename='js/validaciones.js') }}"></script>
+    {% endblock %}
+  
+</body>
+</html>

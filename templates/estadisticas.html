@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Estadísticas de Actividades</title>
+  {% block css %}
+  <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/main.css') }}"
+  />
+  {% endblock %}
+</head>
+<body>
+
+  <header>
+    <h1>Estadisticas de Actividades</h1>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('index') }}">Inicio</a></li>
+        <li><a href="{{ url_for('agregar') }}">Agregar Actividad</a></li>
+        <li><a href="{{ url_for('actividades') }}">Actividades</a></li>
+        <li><a href="{{ url_for('estadisticas') }}">Estadísticas</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+
+  <section class="grafico">
+    <h2>Actividades por Día</h2>
+    <img src="../images/lineas.png" alt="Gráfico de líneas">
+  </section>
+
+  <section class="grafico">
+    <h2>Total de Actividades por Tipo</h2>
+    <img src="../images/torta.png" alt="Gráfico de torta">
+  </section>
+
+  <section class="grafico">
+    <h2>Actividades por Franja Horaria</h2>
+    <img src="../images/barras.png" alt="Gráfico de barras">
+  </section>
+
+  <a href="{{ url_for('index') }}" class="boton">Volver</a>
+
+  <script>
+    // Este archivo podría usarse para futuras gráficas dinámicas con Chart.js u otras librerías
+    console.log("Estadísticas cargadas correctamente.");
+  </script>
+</body>
+</html>

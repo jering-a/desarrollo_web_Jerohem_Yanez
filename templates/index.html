@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Actividades Recreativas</title>
+  {% block css %}
+  <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/main.css') }}"
+  />
+  {% endblock %}
+  
+</head>
+<body>
+  <header>
+    <h1>Bienvenido a la Gestión de Actividades Recreativas</h1>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('index') }}">Inicio</a></li>
+        <li><a href="{{ url_for('agregar') }}">Agregar Actividad</a></li>
+        <li><a href="{{ url_for('actividades') }}">Actividades</a></li>
+        <li><a href="{{ url_for('estadisticas') }}">Estadísticas</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="portada">
+    <h2>Últimas 5 Actividades Agregadas</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Inicio</th>
+          <th>Término</th>
+          <th>Comuna</th>
+          <th>Sector</th>
+          <th>Tema</th>
+          <th>Foto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2025-04-10 09:00</td>
+          <td>2025-04-10 12:00</td>
+          <td>Santiago</td>
+          <td>Centro</td>
+          <td>Yoga</td>
+          <td><img src="../images/yoga160px.jpg" alt="Yoga" ></td>
+        </tr>
+        <tr>
+          <td>2025-04-12 14:00</td>
+          <td>2025-04-12 16:00</td>
+          <td>Ñuñoa</td>
+          <td>Parque Bustamante</td>
+          <td>Fútbol</td>
+          <td><img src="../images/futbol160px.jpg" alt="Fútbol" width="100"></td>
+        </tr>
+        <tr>
+          <td>2025-04-14 08:00</td>
+          <td>2025-04-14 10:00</td>
+          <td>La Florida</td>
+          <td>Gimnasio Municipal</td>
+          <td>Ciclismo</td>
+          <td><img src="images/ciclismo160px.jpg" alt="Ciclismo" width="100"></td>
+        </tr>
+        <tr>
+          <td>2025-04-15 11:00</td>
+          <td>2025-04-15 13:00</td>
+          <td>Providencia</td>
+          <td>Plaza Ñuñoa</td>
+          <td>Caminata</td>
+          <td><img src="images/caminata160px.jpg" alt="Caminata" width="100"></td>
+        </tr>
+        <tr>
+          <td>2025-04-16 16:00</td>
+          <td>2025-04-16 18:00</td>
+          <td>Vitacura</td>
+          <td>Cerro San Cristóbal</td>
+          <td>Escalada</td>
+          <td><img src="images/escalada160px.jpg" alt="Escalada" width="100"></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</body>
+</html>
