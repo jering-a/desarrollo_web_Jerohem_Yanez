@@ -121,6 +121,12 @@ h1 {
     text-align: center;
     color: #333;
 }
+h3 {
+    margin-top: 2em;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 0.3em;
+    color: #0056b3;
+}
 
 
 footer {
@@ -146,27 +152,62 @@ tr:hover {
     object-fit: cover;
     cursor: pointer;
 }
+
+/* Modal */
 .modal {
     display: none;
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0, 0, 0, 0.8);
     justify-content: center;
     align-items: center;
     z-index: 999;
 }
-.modal img {
+.modal-content {
+    position: relative;
+    border: 4px solid white;
+    border-radius: 8px;
+    background-color: black;
+    padding: 8px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+.modal-content img {
     width: 800px;
     height: 600px;
     object-fit: contain;
 }
-.modal button {
+.modal .close {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 0.5em 1em;
+    top: -10px;
+    right: -10px;
+    background: white;
+    color: black;
+    font-size: 24px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    cursor: pointer;
 }
+
+
+  
+
+.actividad-container {
+    max-width: 800px;
+    margin: auto;
+    background-color: white;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.actividad-info p {
+    margin: 0.5em 0;
+    font-size: 1.1em;
+}
+  
 
 form {
     width: 80%; 
@@ -219,4 +260,47 @@ form {
     border: none;
     font-size: 16px;
 }
+
+  
+  /* Galería de fotos */
+  .fotos-galeria {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 1em;
+  }
+  .fotos-galeria img {
+    width: 320px;
+    height: 240px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    transition: transform 0.2s;
+  }
+  .fotos-galeria img:hover {
+    transform: scale(1.02);
+    border-color: #888;
+  }
+
+  .boton-volver {
+    display: inline-block;
+    margin-top: 2em;
+    padding: 0.75em 1.5em;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .boton-volver:hover {
+    background-color: #0056b3;
+    transform: scale(1.03);
+  }
+  
+  
+  
   

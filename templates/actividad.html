@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Listado de Actividades</title>
+  {% block css %}
+  <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/main.css') }}"
+  />
+  {% endblock %}
+</head>
+<body>
+ <header>
+        <h1>Detalle de Actividad</h1>
+        <nav>
+          <ul>
+            <li><a href="{{ url_for('index') }}">Inicio</a></li>
+            <li><a href="{{ url_for('agregar') }}">Agregar Actividad</a></li>
+            <li><a href="{{ url_for('actividades') }}">Actividades</a></li>
+            <li><a href="{{ url_for('estadisticas') }}">Estadísticas</a></li>
+          </ul>
+        </nav>
+      </header>
+
+
+      <div class="actividad-container">
+        <div class="actividad-info">
+          <p><strong>Inicio:</strong> {{ actividad.dia_hora_inicio.strftime('%d-%m-%Y') }}</p>
+          <p><strong>Término:</strong> {{ actividad.dia_hora_termino.strftime('%d-%m-%Y') }}</p>
+          <p><strong>Comuna:</strong> {{ actividad.comuna.nombre }}</p>
+          <p><strong>Sector:</strong> {{ actividad.sector }}</p>
+          <p><strong>Tema:</strong> {{ actividad.temas[0].tema.value if actividad.temas else 'Sin tema' }}</p>
+          <p><strong>Organizador:</strong> {{ actividad.nombre }}</p>
+          <p><strong>Contacto:</strong> {{ actividad.contactos[0].identificador if actividad.contactos else 'Sin contacto' }}</p>
+        </div>
+      
+        <h3>Fotos</h3>
+        <div class="fotos-galeria">
+          {% for archivo in actividad.fotos %}
+            <img src="{{ archivo.ruta_archivo }}" alt="archivo" onclick="openModal(this)">
+          {% endfor %}
+        </div>
+      
+        <div class="modal" id="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <img alt="imagen grande" id="modal-img">
+          </div>
+        </div>
+      
+        <h3>Comentarios</h3>
+        <div id="comentarios">
+          <p>Aquí irán los comentarios</p>
+        </div>
+      </div>
+      
+
+
+<a href="{{ url_for('actividades') }}" class="boton-volver">← Volver al listado</a>
+
+</body>
+
+{% block javascript %}
+    <script lang="javascript" src="{{ url_for('static', filename='js/modal.js') }}"></script>
+{% endblock %}
+</html>

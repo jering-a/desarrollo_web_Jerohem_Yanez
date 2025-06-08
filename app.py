@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request, render_template, redirect, url_for, session
 from database import db
+from sqlalchemy.orm import joinedload
 from werkzeug.utils import secure_filename
 from utils.validations import validar_contactar_por, validar_email, validar_fecha_hora_inicio, validar_fecha_hora_termino, validar_fotos, validar_nombre, validar_region_comuna, validar_sector, validar_telefono, validar_tema
 
@@ -15,10 +16,41 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def index():
     return render_template("index.html")
 
-
 @app.route("/actividades", methods=["GET"])
 def actividades():
-    return render_template("actividades.html")
+    pagina = request.args.get('pagina', default=1, type=int)
+    actividades_por_pagina = 5
+
+    session = db.SessionLocal()
+    total_actividades = session.query(db.Actividad).count()
+    total_paginas = (total_actividades + actividades_por_pagina - 1) // actividades_por_pagina
+
+    actividades = session.query(db.Actividad) \
+        .options(
+            joinedload(db.Actividad.comuna),
+            joinedload(db.Actividad.temas),
+            joinedload(db.Actividad.fotos),
+            joinedload(db.Actividad.contactos)
+        ) \
+        .order_by(db.Actividad.dia_hora_inicio.desc()) \
+        .offset((pagina - 1) * actividades_por_pagina) \
+        .limit(actividades_por_pagina) \
+        .all()
+
+    session.close()
+
+    return render_template("actividades.html",
+                           actividades=actividades,
+                           pagina=pagina,
+                           total_paginas=total_paginas)
+
+
+
+@app.route("/actividad/<int:actividad_id>", methods=["GET"])
+def actividad(actividad_id):
+    actividad = db.get_actividad_by_id(actividad_id)
+    return render_template('actividad.html',
+                           actividad=actividad)
 
 
 @app.route('/agregar', methods=["GET", "POST"])
@@ -46,16 +78,15 @@ def insertar_tablas(req):
     sector = req.form.get('sector', '')
     nombre = req.form.get('nombre')
     email = req.form.get('email')
-    telefono = req.form.get('telefono', '')
-    contactar_por = req.form.get('contactar_por', '')
-    contacto_id = req.form.get('contacto_id', '')
+    telefono = req.form.get('celular', '')
+    contactar_por = req.form.get('contacto', '')
+    contacto_id = req.form.get('contactoInfo', '')
     fecha_inicio = req.form.get('inicio')
     fecha_termino = req.form.get('termino')
     tema = req.form.get('tema')
-    otro_tema = req.form.get('otro_tema', '')
+    otro_tema = req.form.get('temaOtro', '')
     descripcion = req.form.get('descripcion')
     fotos = req.files.getlist('fotos[]')
-    print("Comuna recibida:", comuna)
     comuna_id = db.get_comuna_by_name(comuna).id
 
     actividad_id = db.create_actividad(comuna_id, sector, nombre, email, telefono, fecha_inicio, fecha_termino, descripcion)
@@ -71,7 +102,7 @@ def insertar_tablas(req):
             url = f"/{UPLOAD_FOLDER}/{filename}"
 
         # Guarda en la base de datos
-        db.create_foto(url, filename, actividad_id)
+        db.create_Foto(url, filename, actividad_id)
 
 
 
@@ -84,13 +115,13 @@ def validar_formulario(req):
     sector = req.form.get('sector', '')
     nombre = req.form.get('nombre')
     email = req.form.get('email')
-    telefono = req.form.get('telefono', '')
-    contactar_por = req.form.get('contactar_por', '')
-    contacto_id = req.form.get('contacto_id', '')
+    telefono = req.form.get('celular', '')
+    contactar_por = req.form.get('contacto', '')
+    contacto_id = req.form.get('contactoInfo', '')
     fecha_inicio = req.form.get('inicio')
     fecha_termino = req.form.get('termino')
     tema = req.form.get('tema')
-    otro_tema = req.form.get('otro_tema', '')
+    otro_tema = req.form.get('temaOtro', '')
     fotos = req.files
 
     # Validaciones

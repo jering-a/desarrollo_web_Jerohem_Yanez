@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, Column, Integer, BigInteger, String, ForeignKey, DateTime, Enum
-from sqlalchemy.orm import sessionmaker, declarative_base, relationship
+from sqlalchemy.orm import sessionmaker, declarative_base, relationship, joinedload
 import enum
 
 DB_NAME = "tarea2"
@@ -153,6 +153,42 @@ def get_comuna_by_name(nombre):
     session.close()
     return comuna
 
+def get_comuna_by_id(id):
+    session = SessionLocal()
+    comuna = session.query(Comuna).filter_by(id=id).first()
+    session.close()
+    return comuna
+
+def get_contacto_by_actividad_id(actividad_id):
+    session = SessionLocal()
+    contacto = session.query(ContactarPor).filter_by(actividad_id=actividad_id).first()
+    session.close()
+    return contacto
+
+def get_foto_by_actividad_id(actividad_id):
+    session = SessionLocal()
+    foto = session.query(Foto).filter_by(actividad_id=actividad_id)
+    session.close()
+    return foto
+
+def get_tema_by_actividad_id(actividad_id):
+    session = SessionLocal()
+    tema = session.query(ActividadTema).filter_by(actividad_id=actividad_id).first()
+    session.close()
+    return tema
 
 
+
+def get_actividad_by_id(actividad_id):
+    session = SessionLocal()
+    actividad = session.query(Actividad)\
+        .options(
+            joinedload(Actividad.comuna),
+            joinedload(Actividad.temas),
+            joinedload(Actividad.contactos),
+            joinedload(Actividad.fotos)
+        )\
+        .filter(Actividad.id == actividad_id)\
+        .first()
+    return actividad
 
